@@ -8,7 +8,7 @@
 #include <chrono>
 #include <thread>
 
-#define MAP_SIZE 250
+#define MAP_SIZE 50
 typedef std::vector<std::bitset<MAP_SIZE> > map_t;
 
 int t = 0;
@@ -27,10 +27,9 @@ void printMap(map_t& map){
       }
       uint8_t sum = braille.to_ullong();
       char utf8[4] = {0};
-    
       uint16_t codepoint = 0x2800 + sum;
       utf8[0] = 0xE2;
-      utf8[1] = (0xA0 | (codepoint >> 6) & 0x3F);
+      utf8[1] = 0x80 | ((codepoint >> 6) & 0x3F);
       utf8[2] = 0x80 | (codepoint & 0x3F);
       std::cout << utf8;
     }
@@ -93,14 +92,14 @@ int main(){
 
   for(int r=0; r<MAP_SIZE; r++){
     for(int c=0; c<MAP_SIZE; c++){
-      map[r][c] = (mt()%3)==1;
+      map[r][c] = (mt()%10)==1;
     }
   }
 
   while(1){
     printMap(map);
     nextRound(map);
-    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     std::cout << "\x1B[2J\x1B[H" << std::flush;
     t++;
   }
