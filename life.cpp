@@ -8,7 +8,7 @@
 #include <chrono>
 #include <thread>
 
-#define MAP_SIZE 50
+#define MAP_SIZE 64
 typedef std::vector<std::bitset<MAP_SIZE> > map_t;
 
 int t = 0;
